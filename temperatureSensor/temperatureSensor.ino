@@ -31,7 +31,7 @@ void setup()
     // set up the LCD's number of columns and rows:
     lcd.begin(16, 2);
     // Print a message to the LCD.
-    lcd.print("hello, world!");
+    printTemp(fTemp);
  
     delay(100);
 }
@@ -41,10 +41,10 @@ float convertCelsiusToFairenheit(float temp)
   return (((temp*9)/5) + 32);
 }
 
-void printTemperature(float temp)
+void printTemp(float temp)
 {
   lcd.setCursor(1,0);
-  lcd.print("Current Temperature:");
+  lcd.print("Current Temp:");
   lcd.setCursor(1,1);
   lcd.print(temp);
 }
