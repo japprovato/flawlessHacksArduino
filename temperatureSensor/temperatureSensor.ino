@@ -1,5 +1,6 @@
-// Demo code for Grove - Temperature Sensor V1.1/1.2
-// Loovee @ 2015-8-26
+// Jordana Approvato
+// April 16, 2016
+// based on code for Grove - Temperature Sensor V1.1/1.2 by Loovee @ 2015-8-26
  
 #include <math.h>
 #include <Wire.h>
@@ -15,24 +16,13 @@ void setup()
 {
     Serial.begin(9600);
     
-    int a = analogRead(pinTempSensor );
- 
-    float R = 1023.0/((float)a)-1.0;
-    R = 100000.0*R;
- 
-    float temperature=1.0/(log(R/100000.0)/B+1/298.15)-273.15;//convert to temperature via datasheet ;
-
-    float fTemp = convertCelsiusToFahrenheit(temperature);
-    Serial.print("temperature C = ");
-    Serial.println(temperature);
-    Serial.print("temperature F = ");
-    Serial.println(fTemp);
-
     // set up the LCD's number of columns and rows:
     lcd.begin(16, 2);
     
     // Print a message to the LCD.
-    printTemp(fTemp);
+    lcd.print("Press Button for");
+    lcd.setCursor(1, 1);
+    lcd.print("current temp");
 }
 
 float convertCelsiusToFahrenheit(float temp)
@@ -64,8 +54,32 @@ void printTemp(float temp)
   lcd.setCursor(1,1);
   lcd.print(temp);
 }
+
+float getTemp()
+{
+    int a = analogRead(pinTempSensor);
+ 
+    float R = 1023.0/((float)a)-1.0;
+    R = 100000.0*R;
+ 
+    float temperature=1.0/(log(R/100000.0)/B+1/298.15)-273.15;//convert to temperature via datasheet ;
+
+    float fTemp = convertCelsiusToFahrenheit(temperature);
+
+    return fTemp;
+}
  
 void loop()
 {
-    
+    if(digitalRead(4) == 1)
+    {
+      delay(10);
+      if(digitalRead(4) == 1)
+      {
+       lcd.clear();
+       printTemp(getTemp());
+       delay(3000);
+      }
+    }
+   
 }
